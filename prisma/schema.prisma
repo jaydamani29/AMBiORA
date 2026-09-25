@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(MEMBER)
+  createdAt    DateTime  @default(now())
+  
+  teamLeaderOf Team?     @relation("TeamLeader")
+  membership   TeamMembership?
+}
+
+enum Role {
+  OWNER
+  LEADER
+  MEMBER
+}
+
+model Team {
+  id          String   @id @default(cuid())
+  name        String
+  code        String   @unique
+  createdAt   DateTime @default(now())
+  
+  leaderId    String   @unique
+  leader      User     @relation("TeamLeader", fields: [leaderId], references: [id])
+  
+  members     TeamMembership[]
+  invites     Invite[]
+}
+
+model TeamMembership {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id])
+  teamId    String
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  joinedAt  DateTime @default(now())
+}
+
+model Invite {
+  id           String   @id @default(cuid())
+  teamId       String
+  team         Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedEmail String
+  status       InviteStatus @default(PENDING)
+  createdAt    DateTime @default(now())
+}
+
+enum InviteStatus {
+  PENDING
+  ACCEPTED
+  DECLINED
+}
+
+model Match {
+  id        String   @id @default(cuid())
+  teamAId   String
+  teamBId   String
+  scoreA    Int?
+  scoreB    Int?
+  round     Int
+  playedAt  DateTime?
+}

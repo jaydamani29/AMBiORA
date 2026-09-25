@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Ambiora Arena: register 5 esports teams, add 25 players, generate round-robin fixtures and track the points table.">
+<meta name="theme-color" content="#FBEDE9">
+<meta property="og:title" content="Ambiora Arena – Esports Tournament">
+<meta property="og:description" content="Five clans. One blade. One champion.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Ambiora Arena – Esports Tournament</title>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;700;800&family=Noto+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+<nav>
+  <a href="#/" class="logo">Ambiora<b>Arena</b></a>
+  <div><a href="#/" id="n1">Home</a><a href="#/teams" id="n2">Teams &amp; Fixtures</a></div>
+</nav>
+</header>
+
+<!-- LANDING -->
+<div id="home">
+<canvas id="petals" aria-hidden="true"></canvas>
+<main>
+<div class="hero">
+  <picture class="hero-art">
+    <source srcset="assets/samurai.webp" type="image/webp">
+    <img src="assets/samurai.png" alt="Ronin under a cherry blossom tree" width="800" height="1600" loading="eager">
+  </picture>
+  <div class="hero-text">
+    <h1 class="brush-reveal">Ambiora<span>Arena</span></h1>
+    <p>Five clans. One blade. One champion.</p>
+    <div class="cta">
+      <a class="btn" href="#/teams">Build your clan</a>
+      <a class="btn ghost" href="#games">See the games</a>
+    </div>
+    <div class="count" aria-label="Countdown to tournament">
+      <div><b id="cd">--</b><small>days</small></div>
+      <div><b id="ch">--</b><small>hours</small></div>
+      <div><b id="cm">--</b><small>minutes</small></div>
+      <div><b id="cs">--</b><small>seconds</small></div>
+    </div>
+  </div>
+</div>
+</main>
+<div class="ink-divider" aria-hidden="true">
+  <div>桜 Registration Open · 戦 Five Teams · 勝 One Champion · 桜 Registration Open · 戦 Five Teams · 勝 One Champion · </div>
+</div>
+<main>
+<section id="games"><h2>Pick your battlefield</h2>
+<div class="games">
+  <div class="game g1"><div class="ic">🎯</div><h3>Valorant</h3><p>5v5 tactical shooter. Plant, defuse and outsmart the other side.</p></div>
+  <div class="game g2"><div class="ic">🔫</div><h3>BGMI</h3><p>Squad-based battle royale with fast drops and last-circle chaos.</p></div>
+  <div class="game g3"><div class="ic">⚽</div><h3>eFootball</h3><p>Head-to-head matches where one goal decides the table.</p></div>
+  <div class="game g4"><div class="ic">🏎️</div><h3>Rocket League</h3><p>Rocket-powered cars, a giant ball and pure momentum.</p></div>
+</div></section>
+<section><h2>By the numbers</h2>
+<div class="stats"><div><b>5</b>Teams</div><div><b>25</b>Players</div><div><b>10</b>Matches</div><div><b>5</b>Rounds</div></div></section>
+<section class="how-section"><h2>How it works</h2>
+<div class="flow">
+  <div class="flow-step" data-step="一"><h3>Register</h3><p>Add 5 teams with 5 players each: name and in-game ID.</p></div>
+  <div class="flow-line" aria-hidden="true"></div>
+  <div class="flow-step" data-step="二"><h3>Fixtures</h3><p>One click builds a fair round-robin so every team meets once.</p></div>
+  <div class="flow-line" aria-hidden="true"></div>
+  <div class="flow-step" data-step="三"><h3>Play</h3><p>Enter scores after each match and the table updates instantly.</p></div>
+  <div class="flow-line" aria-hidden="true"></div>
+  <div class="flow-step" data-step="四"><h3>Win</h3><p>3 points for a win, 1 for a draw. Top of the table takes the crown.</p></div>
+</div></section>
+<div class="banner"><h2>Your clan awaits.</h2><a class="btn btn-banner" href="#/teams">Register teams</a></div>
+</main>
+</div>
+
+<!-- TEAMS -->
+<div id="teams" hidden>
+<main>
+<div class="top"><div><h1>Teams &amp; Fixtures</h1><p>Fill in all 5 teams and 25 players, then generate the fixtures. Everything is saved in your browser.</p></div>
+<div class="tools"><button class="btn ghost sm" id="demo">Fill demo data</button><button class="btn ghost sm" id="reset">Reset all</button></div></div>
+<div class="teams" id="teamGrid"></div>
+<div class="msg" id="msg" role="alert"></div>
+<div style="margin:22px 0;display:flex;gap:12px;flex-wrap:wrap"><button class="btn" id="gen">Generate fixtures</button><button class="btn alt" id="shuf" hidden>Reshuffle fixtures</button></div>
+<div id="out" hidden>
+<section style="padding-top:36px"><h2>Fixtures</h2><div class="rounds" id="rounds"></div></section>
+<section><h2>Points table</h2><div class="wrap"><table id="table"></table></div></section>
+<section style="padding-bottom:70px"><h2>Rosters</h2><div class="roster" id="roster"></div></section>
+</div>
+</main>
+</div>
+<footer>Ambiora Arena · Technical Department Task</footer>
+
+<noscript><p style="padding:20px">Please enable JavaScript to use this site.</p></noscript>
+<script src="js/app.js"></script>
+<script src="js/petals.js"></script>
+</body>
+</html>
