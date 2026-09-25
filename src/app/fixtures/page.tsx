@@ -1,5 +1,7 @@
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export default async function FixturesPage() {
   const teams = await prisma.team.findMany({
     include: { leader: true, members: { include: { user: true } } },
