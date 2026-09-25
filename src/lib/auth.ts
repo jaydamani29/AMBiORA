@@ -15,7 +15,7 @@ export const authOptions: NextAuthOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error("Invalid credentials");
         }
-        
+
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
         });
@@ -41,6 +41,7 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: "jwt",
+    maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
     async jwt({ token, user }) {
@@ -60,6 +61,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    error: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

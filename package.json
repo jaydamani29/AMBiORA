@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -14,7 +17,9 @@
     "next": "16.3.6",
     "next-auth": "^4.24.15",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "tsx": "^4.23.15",
+    "zod": "^4.6.5"
   },
   "devDependencies": {
     "@types/node": "^20",

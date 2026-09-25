@@ -17,6 +17,8 @@ model User {
   
   teamLeaderOf Team?     @relation("TeamLeader")
   membership   TeamMembership?
+  
+  @@index([email])
 }
 
 enum Role {
@@ -28,38 +30,51 @@ enum Role {
 model Team {
   id          String   @id @default(cuid())
   name        String
-  code        String   @unique
+  code        String   @unique @db.VarChar(8)
   createdAt   DateTime @default(now())
   
   leaderId    String   @unique
-  leader      User     @relation("TeamLeader", fields: [leaderId], references: [id])
+  leader      User     @relation("TeamLeader", fields: [leaderId], references: [id], onDelete: NoAction)
   
   members     TeamMembership[]
   invites     Invite[]
+  matchesA    Match[]   @relation("TeamAMatches")
+  matchesB    Match[]   @relation("TeamBMatches")
+  
+  @@index([leaderId])
 }
 
 model TeamMembership {
   id        String   @id @default(cuid())
   userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   teamId    String
   team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
   joinedAt  DateTime @default(now())
+  
+  @@index([teamId])
+  @@index([userId])
 }
 
 model Invite {
-  id           String   @id @default(cuid())
-  teamId       String
-  team         Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
-  invitedEmail String
-  status       InviteStatus @default(PENDING)
-  createdAt    DateTime @default(now())
+  id            String       @id @default(cuid())
+  teamId        String
+  team          Team         @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  invitedEmail  String
+  status        InviteStatus @default(PENDING)
+  createdAt     DateTime     @default(now())
+  expiresAt     DateTime
+  
+  @@index([teamId])
+  @@index([invitedEmail])
+  @@index([status])
 }
 
 enum InviteStatus {
   PENDING
   ACCEPTED
   DECLINED
+  EXPIRED
 }
 
 model Match {
@@ -70,4 +85,12 @@ model Match {
   scoreB    Int?
   round     Int
   playedAt  DateTime?
+  createdAt DateTime @default(now())
+  
+  teamA     Team     @relation("TeamAMatches", fields: [teamAId], references: [id], onDelete: Cascade)
+  teamB     Team     @relation("TeamBMatches", fields: [teamBId], references: [id], onDelete: Cascade)
+  
+  @@index([teamAId])
+  @@index([teamBId])
+  @@index([round])
 }

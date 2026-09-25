@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { AuthProvider } from "@/components/AuthProvider";
 import Link from "next/link";
 import "./globals.css";
@@ -6,6 +6,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Ambiora Arena – Esports Tournament",
   description: "Five clans. One blade. One champion.",
+};
+
+export const viewport: Viewport = {
   themeColor: "#FBEDE9",
 };
 
@@ -33,12 +36,9 @@ export default function RootLayout({
                 Ambiora<b>Arena</b>
               </Link>
               <div>
-                <Link href="/" id="n1">
-                  Home
-                </Link>
-                <Link href="/dashboard" id="n2">
-                  Dashboard
-                </Link>
+                <Link href="/" id="n1">Home</Link>
+                <Link href="/dashboard" id="n2">Dashboard</Link>
+                <Link href="/fixtures" id="n3">Standings</Link>
               </div>
             </nav>
           </header>
