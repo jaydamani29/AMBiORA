@@ -46,7 +46,10 @@ export default async function AdminPage() {
       <section>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
           <h2 style={{ fontSize: "24px", color: "var(--ink)" }}>Fixtures & Matches</h2>
-          <form action={generateFixtures}>
+          <form action={async () => {
+            "use server";
+            await generateFixtures();
+          }}>
             <button type="submit" className="btn sm" disabled={!canGenerate}>
               Generate Fixtures (Requires 5 Teams)
             </button>

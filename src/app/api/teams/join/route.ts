@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
     
-    if (!session?.user?.id) {
+    if (!session?.user?.id || !session?.user?.email) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -82,7 +82,7 @@ export async function POST(request: NextRequest) {
       await tx.invite.updateMany({
         where: {
           teamId: team.id,
-          invitedEmail: session.user.email,
+          invitedEmail: session.user.email!,
           status: "PENDING",
         },
         data: { status: "ACCEPTED" },

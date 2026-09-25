@@ -33,13 +33,23 @@ export default async function ManageTeamPage() {
 
   async function removeMember(formData: FormData) {
     "use server";
+    const currentSession = await getServerSession(authOptions);
+    if (!currentSession?.user?.id) return;
+
     const membershipId = formData.get("membershipId") as string;
     if (membershipId) {
-      await prisma.teamMembership.delete({
+      const membership = await prisma.teamMembership.findUnique({
         where: { id: membershipId },
+        include: { team: true },
       });
-      revalidatePath("/team/manage");
-      revalidatePath("/dashboard");
+
+      if (membership && membership.team.leaderId === currentSession.user.id) {
+        await prisma.teamMembership.delete({
+          where: { id: membershipId },
+        });
+        revalidatePath("/team/manage");
+        revalidatePath("/dashboard");
+      }
     }
   }
 

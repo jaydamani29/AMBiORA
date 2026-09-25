@@ -13,13 +13,27 @@ export function PetalsCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    interface Petal {
+      x: number;
+      y: number;
+      size: number;
+      speedY: number;
+      speedX: number;
+      rotation: number;
+      rotSpeed: number;
+      wobble: number;
+      wobbleSpeed: number;
+      opacity: number;
+      color: string;
+    }
+
     const COLORS = ["#E0577A", "#F4B3C4", "#C93E66", "#F6DAD8", "#e8899f"];
     const MAX = 40;
-    let petals: any[] = [];
+    let petals: Petal[] = [];
     let raf: number | null = null;
     let paused = false;
 
-    function createPetal() {
+    function createPetal(): Petal {
       return {
         x: Math.random() * (canvas?.width || 0),
         y: -20 - Math.random() * (canvas?.height || 0) * 0.5,
@@ -51,7 +65,7 @@ export function PetalsCanvas() {
       canvas.height = window.innerHeight;
     }
 
-    function drawPetal(p: any) {
+    function drawPetal(p: Petal) {
       if (!ctx) return;
       ctx.save();
       ctx.translate(p.x, p.y);

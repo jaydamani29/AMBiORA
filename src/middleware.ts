@@ -1,12 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-export async function middleware(req: Request) {
+export async function middleware(req: NextRequest) {
   const url = new URL(req.url);
   const path = url.pathname;
 
   const token = await getToken({ 
-    req: req as any, 
+    req, 
     secret: process.env.NEXTAUTH_SECRET 
   });
 

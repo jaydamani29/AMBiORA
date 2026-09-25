@@ -21,7 +21,12 @@ export default async function DashboardPage() {
   const user = await prisma.user.findUnique({
     where: { id: session.user.id },
     include: {
-      teamLeaderOf: true,
+      teamLeaderOf: {
+        include: {
+          members: { include: { user: true } },
+          leader: true
+        }
+      },
       membership: {
         include: {
           team: {
@@ -53,7 +58,10 @@ export default async function DashboardPage() {
           <div style={{ background: "var(--paper2)", padding: "30px", border: "2px solid var(--ink)", borderRadius: "var(--r)", boxShadow: "4px 4px 0 var(--ink)" }}>
             <h2 style={{ color: "var(--ink)", marginBottom: "10px", fontSize: "24px" }}>Join a Clan</h2>
             <p style={{ color: "var(--ash)", marginBottom: "20px" }}>Got a code from your team leader? Enter it here.</p>
-            <form action={joinTeam} style={{ display: "flex", gap: "8px" }}>
+            <form action={async (formData: FormData) => {
+              "use server";
+              await joinTeam(formData);
+            }} style={{ display: "flex", gap: "8px" }}>
               <input type="text" name="code" placeholder="Team Code" style={{ flex: 1 }} required />
               <button type="submit" className="btn ghost">Join</button>
             </form>

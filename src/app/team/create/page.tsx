@@ -48,7 +48,10 @@ export default async function CreateTeamPage() {
         <h1 style={{ fontSize: "32px", marginBottom: "8px", color: "var(--ink)" }}>Forge Your Clan</h1>
         <p style={{ color: "var(--ash)", marginBottom: "24px" }}>Give your team a name and receive a code to invite your squad.</p>
 
-        <form action={createTeam} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+        <form action={async (formData: FormData) => {
+          "use server";
+          await createTeam(formData);
+        }} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div>
             <label htmlFor="name" style={{ display: "block", marginBottom: "6px", fontSize: "14px", fontWeight: 700 }}>
               Clan Name

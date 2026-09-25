@@ -24,7 +24,7 @@ export async function createTeam(formData: FormData) {
 
     await prisma.$transaction(async (tx) => {
       // Create team
-      const team = await tx.team.create({
+      await tx.team.create({
         data: {
           name: name.trim(),
           code,
@@ -41,8 +41,8 @@ export async function createTeam(formData: FormData) {
 
     revalidatePath("/dashboard");
     redirect("/dashboard");
-  } catch (error: any) {
-    if (error.code === 'P2002') {
+  } catch (error: unknown) {
+    if (typeof error === "object" && error !== null && "code" in error && (error as { code: string }).code === "P2002") {
       return { error: "You are already a leader of a team or code collided." };
     }
     return { error: "Failed to create team." };
@@ -82,7 +82,7 @@ export async function joinTeam(formData: FormData) {
 
     revalidatePath("/dashboard");
     redirect("/dashboard");
-  } catch (error: any) {
+  } catch {
     return { error: "Failed to join team. You might already be in one." };
   }
 }

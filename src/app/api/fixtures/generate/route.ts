@@ -61,11 +61,11 @@ export async function POST() {
 
     // Circle method for odd number of teams
     // Add a dummy team for bye
-    const teams = [...teamIds, "BYE"]; // 6 slots
-    const half = teams.length / 2; // 3
+    const circleTeams = [...teamIds, "BYE"]; // 6 slots
+    const half = circleTeams.length / 2; // 3
     
-    const fixed = teams[0];
-    let rotating = teams.slice(1); // [team2, team3, team4, team5, BYE]
+    const fixed = circleTeams[0];
+    let rotating = circleTeams.slice(1); // [team2, team3, team4, team5, BYE]
     
     for (let round = 0; round < n; round++) {
       // Pair up: fixed vs last, then pairs from rotating

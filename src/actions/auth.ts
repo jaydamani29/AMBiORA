@@ -5,8 +5,13 @@ import bcrypt from "bcryptjs";
 
 export async function registerUser(data: { name: string; email: string; password: string }) {
   try {
+    const normalizedEmail = data.email?.toLowerCase().trim();
+    if (!data.name || !normalizedEmail || !data.password || data.password.length < 6) {
+      return { error: "Invalid registration details. Password must be at least 6 characters." };
+    }
+
     const existingUser = await prisma.user.findUnique({
-      where: { email: data.email },
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
@@ -17,8 +22,8 @@ export async function registerUser(data: { name: string; email: string; password
 
     await prisma.user.create({
       data: {
-        name: data.name,
-        email: data.email,
+        name: data.name.trim(),
+        email: normalizedEmail,
         passwordHash,
       },
     });
